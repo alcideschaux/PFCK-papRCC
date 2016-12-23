@@ -1,0 +1,4627 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>FOXP3 by cohort features</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PFCK in papRCC</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptive analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="descriptive-cohort.html">Cohort features</a>
+    </li>
+    <li>
+      <a href="descriptive-pdl1.html">PD-L1 features</a>
+    </li>
+    <li>
+      <a href="descriptive-foxp3.html">FOXP3 features</a>
+    </li>
+    <li>
+      <a href="descriptive-cd8ki67.html">CD8/Ki67 features</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Association analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="association-tissue.html">By tissue type</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">By cohort features</li>
+    <li>
+      <a href="association-pdl1.html">PD-L1 expression</a>
+    </li>
+    <li>
+      <a href="association-foxp3.html">FOXP3 expression</a>
+    </li>
+    <li>
+      <a href="association-cd8ki67.html">CD8/Ki67 expression</a>
+    </li>
+    <li>
+      <a href="association-cd8foxp3.html">CD8-to-FOXP3 ratio</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Outcome analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="outcome-regression.html">Regression models</a>
+    </li>
+    <li>
+      <a href="outcome-survival.html">Survival curves</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/alcideschaux/PFCK-papRCC">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">FOXP3 by cohort features</h1>
+
+</div>
+
+
+<p> </p>
+<div id="foxp3-lymphocytes-in-tumor" class="section level2">
+<h2><strong>FOXP3(+) lymphocytes in tumor</strong></h2>
+<div id="age-group-distribution" class="section level3">
+<h3>Age group distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Younger age group</th>
+<th align="center">Older age group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.2</td>
+<td align="center">2.6</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.9</td>
+<td align="center">5.0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">2.2</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">12.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">8514</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">8.4e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="sex-distribution" class="section level3">
+<h3>Sex distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Female</th>
+<th align="center">Male</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">2.0</td>
+<td align="center">1.8</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">4.4</td>
+<td align="center">3.7</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">2.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">25.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">6264</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">5e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="race-distribution" class="section level3">
+<h3>Race distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">White</th>
+<th align="center">Black</th>
+<th align="center">Asian</th>
+<th align="center">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.4</td>
+<td align="center">1.6</td>
+<td align="center">4.5</td>
+<td align="center">1.8</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">3.0</td>
+<td align="center">2.3</td>
+<td align="center">5.4</td>
+<td align="center">1.7</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+<td align="center">1.5</td>
+<td align="center">1.5</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">1.8</td>
+<td align="center">2.2</td>
+<td align="center">5.5</td>
+<td align="center">1.8</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">20.0</td>
+<td align="center">12.0</td>
+<td align="center">16.0</td>
+<td align="center">4.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">12.96</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.0047</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="previous-tumor-elsewhere" class="section level3">
+<h3>Previous tumor elsewhere</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No</th>
+<th align="center">Prostate</th>
+<th align="center">Other site</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.6</td>
+<td align="center">0.2</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">2.9</td>
+<td align="center">0.7</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">20.0</td>
+<td align="center">2.0</td>
+<td align="center">2.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">8.086</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.018</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-size-group" class="section level3">
+<h3>Tumor size group</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Smaller tumor</th>
+<th align="center">Larger tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.3</td>
+<td align="center">2.5</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">3.1</td>
+<td align="center">4.5</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">1.0</td>
+<td align="center">3.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">20.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">6776</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">2.9e-04</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-focality" class="section level3">
+<h3>Tumor focality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Focal tumor</th>
+<th align="center">Multifocal tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.6</td>
+<td align="center">3.2</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">3.2</td>
+<td align="center">6.0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.5</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">3.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">30.0</td>
+<td align="center">25.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">5012</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">4.1e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="fuhrman-grade" class="section level3">
+<h3>Fuhrman grade</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Grade 1</th>
+<th align="center">Grade 2</th>
+<th align="center">Grade 3</th>
+<th align="center">Grade 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">1.2</td>
+<td align="center">1.7</td>
+<td align="center">6.9</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">2.3</td>
+<td align="center">2.6</td>
+<td align="center">8.7</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+<td align="center">4.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">1.0</td>
+<td align="center">2.0</td>
+<td align="center">8.5</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">16.0</td>
+<td align="center">13.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">25.84</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">1e-05</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="pt-stage" class="section level3">
+<h3>pT stage</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pTx</th>
+<th align="center">pT1a</th>
+<th align="center">pT1b</th>
+<th align="center">pT2a</th>
+<th align="center">pT2b</th>
+<th align="center">pT3a</th>
+<th align="center">pT3b</th>
+<th align="center">pT4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.7</td>
+<td align="center">1.5</td>
+<td align="center">1.2</td>
+<td align="center">1.8</td>
+<td align="center">1.8</td>
+<td align="center">3.1</td>
+<td align="center">0.5</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0.6</td>
+<td align="center">3.3</td>
+<td align="center">1.8</td>
+<td align="center">3.0</td>
+<td align="center">2.2</td>
+<td align="center">5.5</td>
+<td align="center">0.8</td>
+<td align="center">0.6</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+<td align="center">1.0</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.5</td>
+<td align="center">2.0</td>
+<td align="center">1.8</td>
+<td align="center">1.8</td>
+<td align="center">3.0</td>
+<td align="center">3.0</td>
+<td align="center">0.8</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">1.0</td>
+<td align="center">20.0</td>
+<td align="center">8.0</td>
+<td align="center">12.0</td>
+<td align="center">8.0</td>
+<td align="center">30.0</td>
+<td align="center">2.0</td>
+<td align="center">1.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">10.76</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.15</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="surgical-margins" class="section level3">
+<h3>Surgical margins</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Positive margins</th>
+<th align="center">Negative margins</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.1</td>
+<td align="center">2.0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.7</td>
+<td align="center">4.1</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">1.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">1.0</td>
+<td align="center">2.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">6.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">3326</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">7.2e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-progression" class="section level3">
+<h3>Tumor progression</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No tumor progression</th>
+<th align="center">Tumor progression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.8</td>
+<td align="center">2.3</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">3.8</td>
+<td align="center">4.2</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">3.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">30.0</td>
+<td align="center">20.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">5179</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">3.3e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="overall-mortality" class="section level3">
+<h3>Overall mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD</th>
+<th align="center">DOC + DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.6</td>
+<td align="center">2.4</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">3.2</td>
+<td align="center">4.8</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">2.5</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">25.0</td>
+<td align="center">30.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">8120</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">2.5e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="cancer-related-mortality" class="section level3">
+<h3>Cancer-related mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD + DOC</th>
+<th align="center">DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.3</td>
+<td align="center">1.2</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">2.3</td>
+<td align="center">1.6</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">2.0</td>
+<td align="center">1.8</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">16.0</td>
+<td align="center">6.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">3414</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">7.6e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph-1.png" width="672" /><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="foxp3-lymphocytes-in-tumor-stroma" class="section level2">
+<h2><strong>FOXP3(+) lymphocytes in tumor stroma</strong></h2>
+<div id="age-group-distribution-1" class="section level3">
+<h3>Age group distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Younger age group</th>
+<th align="center">Older age group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.8</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">2.1</td>
+<td align="center">1.2</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">8.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">8825</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">3e-04</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="sex-distribution-1" class="section level3">
+<h3>Sex distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Female</th>
+<th align="center">Male</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.7</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.7</td>
+<td align="center">1.7</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">8.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">4706</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">3.5e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="race-distribution-1" class="section level3">
+<h3>Race distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">White</th>
+<th align="center">Black</th>
+<th align="center">Asian</th>
+<th align="center">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.3</td>
+<td align="center">1.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.2</td>
+<td align="center">2.6</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">8.0</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">6.908</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.075</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="previous-tumor-elsewhere-1" class="section level3">
+<h3>Previous tumor elsewhere</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No</th>
+<th align="center">Prostate</th>
+<th align="center">Other site</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.6</td>
+<td align="center">0.1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.8</td>
+<td align="center">0.3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">1.0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">1.346</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.51</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-size-group-1" class="section level3">
+<h3>Tumor size group</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Smaller tumor</th>
+<th align="center">Larger tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.3</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.1</td>
+<td align="center">2.3</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">6.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">6293</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">2.3e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-focality-1" class="section level3">
+<h3>Tumor focality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Focal tumor</th>
+<th align="center">Multifocal tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.6</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.9</td>
+<td align="center">1.0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">5.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">4550</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">3.2e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="fuhrman-grade-1" class="section level3">
+<h3>Fuhrman grade</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Grade 1</th>
+<th align="center">Grade 2</th>
+<th align="center">Grade 3</th>
+<th align="center">Grade 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">0.2</td>
+<td align="center">0.9</td>
+<td align="center">0.4</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">0.9</td>
+<td align="center">2.4</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">8.0</td>
+<td align="center">15.0</td>
+<td align="center">3.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">11.86</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.0079</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="pt-stage-1" class="section level3">
+<h3>pT stage</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pTx</th>
+<th align="center">pT1a</th>
+<th align="center">pT1b</th>
+<th align="center">pT2a</th>
+<th align="center">pT2b</th>
+<th align="center">pT3a</th>
+<th align="center">pT3b</th>
+<th align="center">pT4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.3</td>
+<td align="center">0.1</td>
+<td align="center">0.7</td>
+<td align="center">2.2</td>
+<td align="center">0.4</td>
+<td align="center">0.7</td>
+<td align="center">1.3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0.6</td>
+<td align="center">0.6</td>
+<td align="center">1.8</td>
+<td align="center">4.2</td>
+<td align="center">1.8</td>
+<td align="center">1.8</td>
+<td align="center">2.2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.5</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">2.5</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">2.2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">1.0</td>
+<td align="center">3.0</td>
+<td align="center">8.0</td>
+<td align="center">15.0</td>
+<td align="center">8.0</td>
+<td align="center">10.0</td>
+<td align="center">5.0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">18.85</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.0087</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="surgical-margins-1" class="section level3">
+<h3>Surgical margins</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Positive margins</th>
+<th align="center">Negative margins</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">1.1</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">2.0</td>
+<td align="center">1.8</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.8</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">6.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">3194</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">7.2e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-progression-1" class="section level3">
+<h3>Tumor progression</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No tumor progression</th>
+<th align="center">Tumor progression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.5</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.7</td>
+<td align="center">1.9</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">10.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">4569</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">4e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="overall-mortality-1" class="section level3">
+<h3>Overall mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD</th>
+<th align="center">DOC + DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.5</td>
+<td align="center">0.6</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.7</td>
+<td align="center">1.7</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">10.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">1.995</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.16</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+</div>
+<div id="cancer-related-mortality-1" class="section level3">
+<h3>Cancer-related mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD + DOC</th>
+<th align="center">DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.5</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.8</td>
+<td align="center">2.0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">10.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.7545</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.39</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph_stroma-1.png" width="672" /><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph_stroma-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="foxp3-intensity-in-intratumoral-lymphocytes" class="section level2">
+<h2><strong>FOXP3 intensity in intratumoral lymphocytes</strong></h2>
+<div id="age-group-distribution-2" class="section level3">
+<h3>Age group distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Younger age group (%)</th>
+<th align="center">Older age group (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">60 (44.1)</td>
+<td align="center">51 (39.8)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (2.2)</td>
+<td align="center">2 (1.6)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">38 (27.9)</td>
+<td align="center">27 (21.1)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">35 (25.7)</td>
+<td align="center">48 (37.5)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">4.589</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.2</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/age_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="sex-distribution-2" class="section level3">
+<h3>Sex distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Female (%)</th>
+<th align="center">Male (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">16 (32)</td>
+<td align="center">95 (44.4)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">1 (2)</td>
+<td align="center">4 (1.9)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">9 (18)</td>
+<td align="center">56 (26.2)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">24 (48)</td>
+<td align="center">59 (27.6)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">7.963</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.047</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="race-distribution-2" class="section level3">
+<h3>Race distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">White (%)</th>
+<th align="center">Black (%)</th>
+<th align="center">Asian (%)</th>
+<th align="center">Other (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">74 (49.7)</td>
+<td align="center">36 (39.1)</td>
+<td align="center">0 (0)</td>
+<td align="center">1 (25)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">1 (0.7)</td>
+<td align="center">2 (2.2)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">36 (24.2)</td>
+<td align="center">21 (22.8)</td>
+<td align="center">6 (75)</td>
+<td align="center">1 (25)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">38 (25.5)</td>
+<td align="center">33 (35.9)</td>
+<td align="center">2 (25)</td>
+<td align="center">2 (50)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">17.47</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.042</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/race_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="previous-tumor-elsewhere-2" class="section level3">
+<h3>Previous tumor elsewhere</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No (%)</th>
+<th align="center">Prostate (%)</th>
+<th align="center">Other site (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">98 (43)</td>
+<td align="center">13 (81.2)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (1.3)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">62 (27.2)</td>
+<td align="center">2 (12.5)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">65 (28.5)</td>
+<td align="center">1 (6.2)</td>
+<td align="center">3 (100)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">16.82</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-size-group-2" class="section level3">
+<h3>Tumor size group</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Smaller tumor (%)</th>
+<th align="center">Larger tumor (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">78 (56.1)</td>
+<td align="center">33 (28)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">2 (1.4)</td>
+<td align="center">3 (2.5)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">29 (20.9)</td>
+<td align="center">32 (27.1)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">30 (21.6)</td>
+<td align="center">50 (42.4)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">22.02</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">6.5e-05</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-focality-2" class="section level3">
+<h3>Tumor focality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Focal tumor (%)</th>
+<th align="center">Multifocal tumor (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">88 (42.3)</td>
+<td align="center">21 (43.8)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">5 (2.4)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">52 (25)</td>
+<td align="center">11 (22.9)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">63 (30.3)</td>
+<td align="center">16 (33.3)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">1.359</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.72</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="fuhrman-grade-2" class="section level3">
+<h3>Fuhrman grade</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Grade 1 (%)</th>
+<th align="center">Grade 2 (%)</th>
+<th align="center">Grade 3 (%)</th>
+<th align="center">Grade 4 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">8 (100)</td>
+<td align="center">73 (54.9)</td>
+<td align="center">29 (32.2)</td>
+<td align="center">1 (4.2)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">2 (1.5)</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (12.5)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">31 (23.3)</td>
+<td align="center">27 (30)</td>
+<td align="center">4 (16.7)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">27 (20.3)</td>
+<td align="center">34 (37.8)</td>
+<td align="center">16 (66.7)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">59.44</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">1.7e-09</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="pt-stage-2" class="section level3">
+<h3>pT stage</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pTx (%)</th>
+<th align="center">pT1a (%)</th>
+<th align="center">pT1b (%)</th>
+<th align="center">pT2a (%)</th>
+<th align="center">pT2b (%)</th>
+<th align="center">pT3a (%)</th>
+<th align="center">pT3b (%)</th>
+<th align="center">pT4 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">0 (0)</td>
+<td align="center">59 (53.2)</td>
+<td align="center">13 (40.6)</td>
+<td align="center">7 (41.2)</td>
+<td align="center">5 (27.8)</td>
+<td align="center">20 (27.8)</td>
+<td align="center">3 (50)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">2 (1.8)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (4.2)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">2 (100)</td>
+<td align="center">27 (24.3)</td>
+<td align="center">9 (28.1)</td>
+<td align="center">2 (11.8)</td>
+<td align="center">4 (22.2)</td>
+<td align="center">20 (27.8)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">23 (20.7)</td>
+<td align="center">10 (31.2)</td>
+<td align="center">8 (47.1)</td>
+<td align="center">9 (50)</td>
+<td align="center">29 (40.3)</td>
+<td align="center">3 (50)</td>
+<td align="center">1 (100)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">32.06</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">21</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.058</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="surgical-margins-2" class="section level3">
+<h3>Surgical margins</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Positive margins (%)</th>
+<th align="center">Negative margins (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">11 (37.9)</td>
+<td align="center">93 (43.5)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">1 (3.4)</td>
+<td align="center">4 (1.9)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">6 (20.7)</td>
+<td align="center">54 (25.2)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">11 (37.9)</td>
+<td align="center">63 (29.4)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">1.31</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.73</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-progression-2" class="section level3">
+<h3>Tumor progression</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No tumor progression (%)</th>
+<th align="center">Tumor progression (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">93 (44.1)</td>
+<td align="center">13 (28.9)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">4 (1.9)</td>
+<td align="center">1 (2.2)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">53 (25.1)</td>
+<td align="center">10 (22.2)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">61 (28.9)</td>
+<td align="center">21 (46.7)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">5.864</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.12</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="overall-mortality-2" class="section level3">
+<h3>Overall mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD (%)</th>
+<th align="center">DOC + DOD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">74 (43.8)</td>
+<td align="center">37 (38.9)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (1.8)</td>
+<td align="center">2 (2.1)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">39 (23.1)</td>
+<td align="center">26 (27.4)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">53 (31.4)</td>
+<td align="center">30 (31.6)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.8296</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.84</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/death_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="cancer-related-mortality-2" class="section level3">
+<h3>Cancer-related mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD + DOC (%)</th>
+<th align="center">DOD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">95 (49.5)</td>
+<td align="center">16 (44.4)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">2 (1)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">48 (25)</td>
+<td align="center">11 (30.6)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">47 (24.5)</td>
+<td align="center">9 (25)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.8978</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.83</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_lymph_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="foxp3-intensity-in-tumor-cells" class="section level2">
+<h2><strong>FOXP3 intensity in tumor cells</strong></h2>
+<div id="age-group-distribution-3" class="section level3">
+<h3>Age group distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Younger age group (%)</th>
+<th align="center">Older age group (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">140 (95.9)</td>
+<td align="center">139 (100)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">6 (4.1)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">4.011</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.045</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/age_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/age_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="sex-distribution-3" class="section level3">
+<h3>Sex distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Female (%)</th>
+<th align="center">Male (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">55 (100)</td>
+<td align="center">224 (97.4)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">6 (2.6)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.4732</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.49</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/sex_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="race-distribution-3" class="section level3">
+<h3>Race distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">White (%)</th>
+<th align="center">Black (%)</th>
+<th align="center">Asian (%)</th>
+<th align="center">Other (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">160 (96.4)</td>
+<td align="center">92 (100)</td>
+<td align="center">8 (100)</td>
+<td align="center">4 (100)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">6 (3.6)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">3.844</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.28</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/race_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/race_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="previous-tumor-elsewhere-3" class="section level3">
+<h3>Previous tumor elsewhere</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No (%)</th>
+<th align="center">Prostate (%)</th>
+<th align="center">Other site (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">236 (97.5)</td>
+<td align="center">16 (100)</td>
+<td align="center">6 (100)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">6 (2.5)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.5581</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.76</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-size-group-3" class="section level3">
+<h3>Tumor size group</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Smaller tumor (%)</th>
+<th align="center">Larger tumor (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">141 (100)</td>
+<td align="center">131 (97.8)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (2.2)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">1.454</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.23</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-focality-3" class="section level3">
+<h3>Tumor focality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Focal tumor (%)</th>
+<th align="center">Multifocal tumor (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">220 (97.3)</td>
+<td align="center">51 (100)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">6 (2.7)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.4147</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.52</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/focality_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="fuhrman-grade-3" class="section level3">
+<h3>Fuhrman grade</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Grade 1 (%)</th>
+<th align="center">Grade 2 (%)</th>
+<th align="center">Grade 3 (%)</th>
+<th align="center">Grade 4 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">8 (100)</td>
+<td align="center">135 (100)</td>
+<td align="center">100 (97.1)</td>
+<td align="center">25 (89.3)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (2.9)</td>
+<td align="center">3 (10.7)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">12.95</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.0047</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="pt-stage-3" class="section level3">
+<h3>pT stage</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pTx (%)</th>
+<th align="center">pT1a (%)</th>
+<th align="center">pT1b (%)</th>
+<th align="center">pT2a (%)</th>
+<th align="center">pT2b (%)</th>
+<th align="center">pT3a (%)</th>
+<th align="center">pT3b (%)</th>
+<th align="center">pT4 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">0 (0)</td>
+<td align="center">111 (100)</td>
+<td align="center">35 (100)</td>
+<td align="center">19 (100)</td>
+<td align="center">21 (100)</td>
+<td align="center">79 (100)</td>
+<td align="center">7 (100)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (100)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (100)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">278</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">3e-56</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="surgical-margins-3" class="section level3">
+<h3>Surgical margins</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Positive margins (%)</th>
+<th align="center">Negative margins (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">32 (100)</td>
+<td align="center">224 (97.4)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">6 (2.6)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.08624</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.77</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/margins_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-progression-3" class="section level3">
+<h3>Tumor progression</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No tumor progression (%)</th>
+<th align="center">Tumor progression (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">221 (98.7)</td>
+<td align="center">50 (94.3)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (1.3)</td>
+<td align="center">3 (5.7)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">2.013</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.16</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/progression_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="overall-mortality-3" class="section level3">
+<h3>Overall mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD (%)</th>
+<th align="center">DOC + DOD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">181 (98.4)</td>
+<td align="center">98 (97)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">3 (1.6)</td>
+<td align="center">3 (3)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.1039</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.75</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/death_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/death_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="cancer-related-mortality-3" class="section level3">
+<h3>Cancer-related mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD + DOC (%)</th>
+<th align="center">DOD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No staining</td>
+<td align="center">192 (100)</td>
+<td align="center">36 (92.3)</td>
+</tr>
+<tr class="even">
+<td>Weak staining</td>
+<td align="center">0 (0)</td>
+<td align="center">3 (7.7)</td>
+</tr>
+<tr class="odd">
+<td>Moderate staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+<tr class="even">
+<td>Strong staining</td>
+<td align="center">0 (0)</td>
+<td align="center">0 (0)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Pearson’s Chi-squared test with Yates’ continuity correction</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">9.564</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.002</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_intensity-1.png" width="672" /><img src="association-foxp3_files/figure-html/dod_foxp3_tumor_intensity-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="foxp3-tumor-cells" class="section level2">
+<h2><strong>FOXP3(+) tumor cells</strong></h2>
+<div id="age-group-distribution-4" class="section level3">
+<h3>Age group distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Younger age group</th>
+<th align="center">Older age group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">2.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">10564</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">1.6e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/age_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/age_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="sex-distribution-4" class="section level3">
+<h3>Sex distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Female</th>
+<th align="center">Male</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">0.2</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">1.6</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">6160</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">2.3e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/sex_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/sex_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="race-distribution-4" class="section level3">
+<h3>Race distribution</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">White</th>
+<th align="center">Black</th>
+<th align="center">Asian</th>
+<th align="center">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.9</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">3.83</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.28</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/race_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/race_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="previous-tumor-elsewhere-4" class="section level3">
+<h3>Previous tumor elsewhere</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No</th>
+<th align="center">Prostate</th>
+<th align="center">Other site</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.6</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">0.5559</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.76</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/other_tumor_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-size-group-4" class="section level3">
+<h3>Tumor size group</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Smaller tumor</th>
+<th align="center">Larger tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">0.4</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">3.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">9236</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">7.5e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/size_group_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-focality-4" class="section level3">
+<h3>Tumor focality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Focal tumor</th>
+<th align="center">Multifocal tumor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.6</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">5916</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">2.4e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/focality_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/focality_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="fuhrman-grade-4" class="section level3">
+<h3>Fuhrman grade</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Grade 1</th>
+<th align="center">Grade 2</th>
+<th align="center">Grade 3</th>
+<th align="center">Grade 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.1</td>
+<td align="center">1.5</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.5</td>
+<td align="center">4.4</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">13.14</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">0.0043</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/fuhrman_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="pt-stage-4" class="section level3">
+<h3>pT stage</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pTx</th>
+<th align="center">pT1a</th>
+<th align="center">pT1b</th>
+<th align="center">pT2a</th>
+<th align="center">pT2b</th>
+<th align="center">pT3a</th>
+<th align="center">pT3b</th>
+<th align="center">pT4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">14.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2.7</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">1.7</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.6</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">1.5</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">12.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">15.0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Kruskal-Wallis rank sum test</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Statistic</td>
+<td align="center">277</td>
+</tr>
+<tr class="even">
+<td>Parameter</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td>P statistic</td>
+<td align="center">4.9e-56</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/pt_stage_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="surgical-margins-4" class="section level3">
+<h3>Surgical margins</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Positive margins</th>
+<th align="center">Negative margins</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">0.2</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">1.6</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">3584</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">3.6e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/margins_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/margins_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="tumor-progression-4" class="section level3">
+<h3>Tumor progression</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">No tumor progression</th>
+<th align="center">Tumor progression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.0</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0.3</td>
+<td align="center">3.3</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">3.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">5675</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">4.9e-02</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/progression_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/progression_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="overall-mortality-4" class="section level3">
+<h3>Overall mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD</th>
+<th align="center">DOC + DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0.0</td>
+<td align="center">0.4</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0.3</td>
+<td align="center">2.4</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0.0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">3.0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">9163</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">4.4e-01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/death_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/death_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="cancer-related-mortality-4" class="section level3">
+<h3>Cancer-related mortality</h3>
+<table>
+<caption>Summary table</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AND + AWD + DOC</th>
+<th align="center">DOD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td align="center">0</td>
+<td align="center">1.1</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td align="center">0</td>
+<td align="center">3.8</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Interquartile range</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="odd">
+<td>Minimum</td>
+<td align="center">0</td>
+<td align="center">0.0</td>
+</tr>
+<tr class="even">
+<td>Maximum</td>
+<td align="center">0</td>
+<td align="center">15.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mann-Whitney U test for the sum of ranks</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>U-statistic</td>
+<td align="center">3456</td>
+</tr>
+<tr class="even">
+<td>P statistic</td>
+<td align="center">1.2e-04</td>
+</tr>
+</tbody>
+</table>
+<p><img src="association-foxp3_files/figure-html/dod_foxp3_tumor-1.png" width="672" /><img src="association-foxp3_files/figure-html/dod_foxp3_tumor-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
