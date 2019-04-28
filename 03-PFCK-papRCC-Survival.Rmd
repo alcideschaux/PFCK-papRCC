@@ -1,0 +1,321 @@
+---
+jupyter:
+  jupytext:
+    formats: ipynb,Rmd
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.1'
+      jupytext_version: 1.1.1
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+---
+
+```{r}
+# Library
+suppressPackageStartupMessages(library(tidyverse))
+library(survival)
+
+# Global
+options(warn = -1)
+
+# Scripts
+source("Summarize.R")
+
+# Data
+load("DF.Rdata")
+DF <- DF %>% 
+  select(
+    death:progression,
+    follow_up,
+    cd8foxp3_intratumoral:ki67_intratumoral_level
+  )
+
+glimpse(DF)
+```
+
+# Hazard ratios
+
+```{r}
+# A function to estimate hazard ratios using Cox proportional hazards regression
+HR_tbl <- function(data, time, event, covariate, str_marker, str_outcome) {
+    # Creating the dataset
+    time = enquo(time)
+    event = enquo(event)
+    covariate = enquo(covariate)
+    df <- data %>% 
+        select(
+            time = !! time,
+            event = !! event,
+            covariate = !! covariate
+        ) %>% 
+        mutate(event = as.numeric(event))
+    # Creating the model
+    surv_obj <- survival::Surv(df$time, df$event)
+    mdl <- coxph(surv_obj ~ covariate, data = df)
+    tbl <- broom::tidy(mdl) %>% 
+        mutate(
+            hr = round(exp(estimate), 2),
+            conf.low = round(exp(conf.low), 2),
+            conf.high = round(exp(conf.high), 2),
+            p.value = formatC(p.value, digits = 2, format = "g", flag = "#"),
+            marker = paste(str_marker),
+            outcome = paste(str_outcome)
+        )  %>% 
+        select(
+            outcome, marker, hr, conf.low, conf.high, p.value
+        )
+    
+    return(tbl)
+}
+```
+
+## Tumor progression
+
+```{r}
+str_outcome <- "Tumor progression"
+tbl_1A <- DF %>% HR_tbl(
+  follow_up, progression, pdl1_tumor_level,
+  "PD-L1, tumor cells", str_outcome
+)
+tbl_1B <- DF %>% HR_tbl(
+  follow_up, progression, pdl1_intratumoral_level,
+  "PD-L1, intratumoral lymphocytes", str_outcome
+)
+tbl_1C <- DF %>% HR_tbl(
+  follow_up, progression, foxp3_intratumoral_level,
+  "FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_1D <- DF %>% HR_tbl(
+  follow_up, progression, foxp3_peritumoral_level,
+  "FOXP3, peritumoral lymphocytes", str_outcome
+)
+tbl_1E <- DF %>% HR_tbl(
+  follow_up, progression, cd8_intratumoral_level,
+  "CD8, intratumoral lymphocytes", str_outcome
+)
+tbl_1F <- DF %>% HR_tbl(
+  follow_up, progression, cd8_peritumoral_level,
+  "CD8, peritumoral lymphocytes", str_outcome
+)
+tbl_1G <- DF %>% HR_tbl(
+  follow_up, progression, cd8ki67_intratumoral_level,
+  "CD8-Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_1H <- DF %>% HR_tbl(
+  follow_up, progression, cd8ki67_peritumoral_level,
+  "CD8-Ki67, peritumoral lymphocytes", str_outcome
+)
+tbl_1I <- DF %>% HR_tbl(
+  follow_up, progression, ki67_intratumoral_level,
+  "Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_1J <- DF %>% HR_tbl(
+  follow_up, progression, cd8foxp3_intratumoral,
+  "CD8/FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_1K <- DF %>% HR_tbl(
+  follow_up, progression, cd8foxp3_peritumoral,
+  "CD8/FOXP3, peritumoral lymphocytes", str_outcome
+)
+
+#  tbl_1H excluded due to NAs
+tbl_1 <- bind_rows(
+  tbl_1A, tbl_1B,
+  tbl_1C, tbl_1D,
+  tbl_1E, tbl_1F,
+  tbl_1G,
+  tbl_1I,
+  tbl_1J, tbl_1K
+)  %>% 
+    as.tibble()
+
+print(tbl_1)
+```
+
+## Overall mortality
+
+```{r}
+str_outcome <- "Overall mortality"
+tbl_2A <- DF %>% HR_tbl(
+  follow_up, death, pdl1_tumor_level,
+  "PD-L1, tumor cells", str_outcome
+)
+tbl_2B <- DF %>% HR_tbl(
+  follow_up, death, pdl1_intratumoral_level,
+  "PD-L1, intratumoral lymphocytes", str_outcome
+)
+tbl_2C <- DF %>% HR_tbl(
+  follow_up, death, foxp3_intratumoral_level,
+  "FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_2D <- DF %>% HR_tbl(
+  follow_up, death, foxp3_peritumoral_level,
+  "FOXP3, peritumoral lymphocytes", str_outcome
+)
+tbl_2E <- DF %>% HR_tbl(
+  follow_up, death, cd8_intratumoral_level,
+  "CD8, intratumoral lymphocytes", str_outcome
+)
+tbl_2F <- DF %>% HR_tbl(
+  follow_up, death, cd8_peritumoral_level,
+  "CD8, peritumoral lymphocytes", str_outcome
+)
+tbl_2G <- DF %>% HR_tbl(
+  follow_up, death, cd8ki67_intratumoral_level,
+  "CD8-Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_2H <- DF %>% HR_tbl(
+  follow_up, death, cd8ki67_peritumoral_level,
+  "CD8-Ki67, peritumoral lymphocytes", str_outcome
+)
+tbl_2I <- DF %>% HR_tbl(
+  follow_up, death, ki67_intratumoral_level,
+  "Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_2J <- DF %>% HR_tbl(
+  follow_up, death, cd8foxp3_intratumoral,
+  "CD8/FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_2K <- DF %>% HR_tbl(
+  follow_up, death, cd8foxp3_peritumoral,
+  "CD8/FOXP3, peritumoral lymphocytes", str_outcome
+)
+
+#  tbl_2H excluded due to NAs
+tbl_2 <- bind_rows(
+  tbl_2A, tbl_2B,
+  tbl_2C, tbl_2D,
+  tbl_2E, tbl_2F,
+  tbl_2G,
+  tbl_2I,
+  tbl_2J, tbl_2K
+)  %>% 
+    as.tibble()
+
+print(tbl_2)
+```
+
+## Cancer-related mortality
+
+```{r}
+str_outcome <- "Cancer-related mortality"
+tbl_3A <- DF %>% HR_tbl(
+  follow_up, dod, pdl1_tumor_level,
+  "PD-L1, tumor cells", str_outcome
+)
+tbl_3B <- DF %>% HR_tbl(
+  follow_up, dod, pdl1_intratumoral_level,
+  "PD-L1, intratumoral lymphocytes", str_outcome
+)
+tbl_3C <- DF %>% HR_tbl(
+  follow_up, dod, foxp3_intratumoral_level,
+  "FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_3D <- DF %>% HR_tbl(
+  follow_up, dod, foxp3_peritumoral_level,
+  "FOXP3, peritumoral lymphocytes", str_outcome
+)
+tbl_3E <- DF %>% HR_tbl(
+  follow_up, dod, cd8_intratumoral_level,
+  "CD8, intratumoral lymphocytes", str_outcome
+)
+tbl_3F <- DF %>% HR_tbl(
+  follow_up, dod, cd8_peritumoral_level,
+  "CD8, peritumoral lymphocytes", str_outcome
+)
+tbl_3G <- DF %>% HR_tbl(
+  follow_up, dod, cd8ki67_intratumoral_level,
+  "CD8-Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_3H <- DF %>% HR_tbl(
+  follow_up, dod, cd8ki67_peritumoral_level,
+  "CD8-Ki67, peritumoral lymphocytes", str_outcome
+)
+tbl_3I <- DF %>% HR_tbl(
+  follow_up, dod, ki67_intratumoral_level,
+  "Ki67, intratumoral lymphocytes", str_outcome
+)
+tbl_3J <- DF %>% HR_tbl(
+  follow_up, dod, cd8foxp3_intratumoral,
+  "CD8/FOXP3, intratumoral lymphocytes", str_outcome
+)
+tbl_3K <- DF %>% HR_tbl(
+  follow_up, dod, cd8foxp3_peritumoral,
+  "CD8/FOXP3, peritumoral lymphocytes", str_outcome
+)
+
+#  tbl_3H excluded due to NAs
+tbl_3 <- bind_rows(
+  tbl_3A, tbl_3B,
+  tbl_3C, tbl_3D,
+  tbl_3E, tbl_3F,
+  tbl_3G,
+  tbl_3I,
+  tbl_3J, tbl_3K
+)  %>% 
+    as.tibble()
+
+print(tbl_3)
+```
+
+## All outcomes
+
+**Forest plots of biomarkers by outcome.** Hazards ratios (dots) with 95% confidence intervals (error bars) for tumor progression, overall mortality and cancer-related mortality by expression levels of PD-L1, FOXP3, CD8, CD8-Ki67 and CD8/FOXP3 (high level vs low level). The dashed line corresponds to a hazard ratio of 1. Hazards ratios (HR) with their 95% confidence intervals (minimum, maximum) and P values were estimated using Cox's proportional hazards regression models.
+```{r}
+options(repr.plot.height = 9, repr.plot.width = 9)
+
+tbl_HR <- bind_rows(tbl_1, tbl_2, tbl_3)
+
+Plot_HR <- tbl_HR  %>% 
+  mutate(
+    outcome = factor(
+      outcome,
+      levels = c("Tumor progression", "Overall mortality", "Cancer-related mortality")
+    ),
+    marker = fct_rev(
+      factor(marker,
+        levels = c(
+          "PD-L1, tumor cells",
+          "PD-L1, intratumoral lymphocytes",
+          "FOXP3, intratumoral lymphocytes",
+          "FOXP3, peritumoral lymphocytes",
+          "CD8, intratumoral lymphocytes",
+          "CD8, peritumoral lymphocytes",
+          "CD8-Ki67, intratumoral lymphocytes",
+          "Ki67, intratumoral lymphocytes",
+          "CD8/FOXP3, intratumoral lymphocytes",
+          "CD8/FOXP3, peritumoral lymphocytes"
+      )))
+    ) %>% 
+    ggplot(aes(x = marker, y = hr, ymin = conf.low, ymax = conf.high)) +
+      geom_pointrange() +
+      geom_errorbar(aes(ymin = conf.low, ymax = conf.high)) +
+      geom_hline(yintercept = 1, linetype = 2) +
+      labs(x = NULL, y = "Hazard ratio") +
+      scale_y_continuous(limits = c(0, 11), breaks = c(0:11)) +
+      coord_flip(clip = "off") +
+      facet_wrap(~ outcome, ncol = 1) +
+      geom_text(
+        aes(
+          label = paste0(" HR=", hr, " (", conf.low, ", ", conf.high, "), P=", p.value),
+            y = Inf,
+            x = marker
+          ), hjust = 0, size = 3
+      ) +
+      theme(plot.margin = unit(c(1,16,1,1), "lines"))
+
+Plot_HR
+```
+
+```{r}
+ggsave(
+    filename = "Figs/PFCK-papRCC-HR.png",
+    Plot_HR,
+    width = 9,
+    height = 9,
+    units = "in"
+)
+```

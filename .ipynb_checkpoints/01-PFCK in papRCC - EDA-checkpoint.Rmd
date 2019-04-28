@@ -1,0 +1,852 @@
+---
+jupyter:
+  jupytext:
+    formats: ipynb,Rmd
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.1'
+      jupytext_version: 1.1.1
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+---
+
+```{r}
+# Libraries
+suppressPackageStartupMessages(library(tidyverse))
+
+# Global options
+options(warn = -1)
+
+# Loading the data
+load("DF.Rdata")
+```
+
+# Clinicopathologic and outcome features
+
+```{r}
+# Glimpse of the clinicopathologic dataset
+glimpse(DF_Clinical)
+```
+
+```{r}
+# Functions for describing clinicopathologic features
+# Argument 'x' refers to the variable under evaluation
+
+# Summary for a numeric variable
+summary_num_x <- function(data, x) {
+
+    x <- enquo(x)
+    
+    num_x <- data %>%
+        summarize(
+            N = n(),
+            Mean = mean(!! x, na.rm = TRUE),
+            SD = sd(!! x, na.rm = TRUE),
+            Median = median(!! x, na.rm = TRUE),
+            IQR = IQR(!! x, na.rm = TRUE),
+            Min = min(!! x, na.rm = TRUE),
+            Max = max(!! x, na.rm = TRUE),
+            Missing = sum(is.na(!! x))
+        )
+    
+    print(num_x)
+}
+
+# Summary for a factor (categorical) variable
+summary_fct_x <- function(data, x) {
+    
+    x <- enquo(x)
+    
+    fct_x <- data %>%
+        count(!! x) %>%
+        mutate(freq = n / sum(n) * 100) %>%
+        rename(Levels = !! x) %>%
+        mutate(freq = round(freq,  digits = 1))
+
+    print(fct_x)
+
+}
+```
+
+## Clinical features
+### Age, in years
+```{r}
+DF_Clinical %>% summary_num_x(age)
+```
+
+### Sex
+```{r}
+DF_Clinical %>% summary_fct_x(sex)
+```
+
+### Race
+```{r}
+DF_Clinical %>% summary_fct_x(race)
+```
+
+## Pathologic features
+### Fuhrman grade
+```{r}
+DF_Clinical %>% summary_fct_x(fuhrman)
+```
+
+### pT stage
+```{r}
+DF_Clinical %>% summary_fct_x(pt_stage)
+```
+
+
+### Tumor size, in cm
+```{r}
+DF_Clinical %>% summary_num_x(size)
+```
+
+### Tumor focality
+```{r}
+DF_Clinical %>% summary_fct_x(focality)
+```
+
+## Outcome features
+### Follow-up, in months
+```{r}
+DF_Clinical %>% summary_num_x(follow_up)
+```
+
+### Tumor progression
+```{r}
+DF_Clinical %>% summary_fct_x(progression)
+```
+
+### Overall mortality
+```{r}
+DF_Clinical %>% summary_fct_x(death)
+```
+
+### Cancer-related mortality
+```{r}
+DF_Clinical %>% summary_fct_x(dod)
+```
+
+# Expression by tissue type
+```{r}
+glimpse(DF)
+```
+
+```{r}
+# A function to summarize biomarkers expression by tissue type and test the associations
+# 'x' refers to the expression in nontumor tissues
+# 'y' refers to the expression in primary tumors
+# 'z' refers to the expression in metastatic tumors
+
+summary_by <- function(data, x, y, z) {
+    
+    x <- enquo(x)
+    y <- enquo(y)
+    z <- enquo(z)
+    
+    # Tidying the data
+    df <- data %>%
+        select(!! x, !! y, !! z) %>%
+        gather(tissue_type, biomarker_expression) %>%
+        mutate(
+            tissue_type = str_replace_all(
+                tissue_type, c(
+                    ".*_normal.*" = "Non-tumor epithelium",
+                    ".*_tumor.*" = "Primary tumor",
+                    ".*_metastatic.*" = "Metastatic tumor"
+                )
+            ),
+            tissue_type = fct_relevel(
+                tissue_type,
+                "Metastatic tumor", after = Inf
+            )
+        )
+    
+    # Creating summary table
+    summary_biomarker <- df %>%
+        group_by(tissue_type) %>%
+        summarize(
+            N = n(),
+            Mean = mean(biomarker_expression, na.rm = TRUE),
+            SD = sd(biomarker_expression, na.rm = TRUE),
+            Median = median(biomarker_expression, na.rm = TRUE),
+            IQR = IQR(biomarker_expression, na.rm = TRUE),
+            Min = min(biomarker_expression, na.rm = TRUE),
+            Max = max(biomarker_expression, na.rm = TRUE),
+            Missing = sum(is.na(biomarker_expression))
+        ) %>%
+        rename(
+            "Tissue type" = tissue_type
+        )
+
+    # Testing for overall associations
+    kw_biomarker <- kruskal.test(
+        formula = biomarker_expression ~ tissue_type,
+        data = df
+    )
+    
+    # Testing for pairwise associations
+    pairwise_biomarker <- with(
+        df,
+        pairwise.wilcox.test(
+            x = biomarker_expression,
+            g = tissue_type,
+            p.adjust.method = "bonferroni"
+        )
+    )
+    
+    # Printing the results
+    print(summary_biomarker)
+    print(kw_biomarker)
+    print(pairwise_biomarker)
+    
+}
+```
+
+## PD-L1
+### Epithelial cells
+```{r}
+DF %>% summary_by(pdl1_normal, pdl1_tumor, pdl1_metastatic)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF %>% summary_by(pdl1_normal_stroma, pdl1_tumor_stroma, pdl1_metastatic_stroma)
+```
+
+## FOXP3
+### Intratumoral lymphocytes
+```{r}
+DF %>% summary_by(foxp3_normal_lymph, foxp3_tumor_lymph, foxp3_metastatic_lymph)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF %>% summary_by(foxp3_normal_lymph_stroma, foxp3_tumor_lymph_stroma, foxp3_metastatic_lymph_stroma)
+```
+
+### Tumor cells
+```{r}
+DF %>% summary_by(foxp3_normal, foxp3_tumor, foxp3_metastatic)
+```
+
+## CD8
+### Intratumoral lymphocytes
+```{r}
+DF %>% summary_by(cd8_normal, cd8_tumor, cd8_metastatic)
+```
+
+
+### Peritumoral lymphocytes
+```{r}
+DF %>% summary_by(cd8_normal_stroma, cd8_tumor_stroma, cd8_metastatic_stroma)
+```
+
+## CD8/Ki67
+### Intratumoral lymphocytes
+```{r}
+DF %>% summary_by(cd8ki67_normal, cd8ki67_tumor, cd8ki67_metastatic)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF %>% summary_by(cd8ki67_normal_stroma, cd8ki67_tumor_stroma, cd8ki67_metastatic_stroma)
+```
+
+## Ki67
+### Intratumoral lymphocytes
+```{r}
+DF %>% summary_by(ki67_normal, ki67_tumor, ki67_metastatic)
+```
+
+# Expression by clinicopathologic features
+```{r}
+# A function to define the summarizing statistic for biomarkers
+summarize_biomarker <- function(x) { quantile(x, probs = 1, na.rm = TRUE) }
+
+# Summaries by maximum tumor expression
+DF_ASSOCIATION <- DF %>%
+    group_by(sp) %>%
+    summarize(
+        age_group = unique(age_group),
+        sex = unique(sex),
+        race = unique(race),
+        fuhrman = unique(fuhrman),
+        pt_stage = unique(pt_stage),
+        size_group = unique(size_group),
+        focality = unique(focality),
+        progression = unique(progression),
+        death = unique(death),
+        dod = unique(dod),
+        pdl1_tumor = summarize_biomarker(pdl1_tumor),
+        pdl1_intratumoral = summarize_biomarker(pdl1_tumor_stroma),
+        foxp3_intratumoral = summarize_biomarker(foxp3_tumor_lymph),
+        foxp3_peritumoral = summarize_biomarker(foxp3_tumor_lymph_stroma),
+        cd8_intratumoral = summarize_biomarker(cd8_tumor),
+        cd8_peritumoral = summarize_biomarker(cd8_tumor_stroma),
+        cd8ki67_intratumoral = summarize_biomarker(cd8ki67_tumor),
+        cd8ki67_peritumoral = summarize_biomarker(cd8ki67_tumor_stroma),
+        ki67_intratumoral = summarize_biomarker(ki67_tumor)
+    )
+
+glimpse(DF_ASSOCIATION)
+```
+
+```{r}
+# A function to evaluate the association between biomarkers expression and clinicopathologic features
+summary_association <- function(data, biomarker, feature)  {
+    
+    biomarker <- enquo(biomarker)
+    feature <- enquo(feature)
+    df <- data %>%
+        mutate(
+            biomarker = !! biomarker,
+            feature = !! feature
+        )
+    
+    # Creating summary table
+    tbl <- df %>%
+        group_by(feature) %>%
+        summarize(
+            N = n(),
+            Mean = mean(biomarker, na.rm = TRUE),
+            SD = sd(biomarker, na.rm = TRUE),
+            Median = median(biomarker, na.rm = TRUE),
+            IQR = IQR(biomarker, na.rm = TRUE),
+            Min = min(biomarker, na.rm = TRUE),
+            Max = max(biomarker, na.rm = TRUE),
+            Missing = sum(is.na(biomarker))
+        )
+    
+    # Testing for association
+    if (nrow(tbl) == 2) {
+        test <- wilcox.test(biomarker ~ feature, df)
+    }
+    if (nrow(tbl) > 2) {
+        test <- kruskal.test(biomarker ~ feature, df)
+    }
+    
+    # Testing for pairwise associations
+    if (nrow(tbl) > 2) {
+        test_pairwise <- with(df, pairwise.wilcox.test(biomarker, feature, p.adjust.method = "bonferroni"))
+    }
+    
+    # Printing the results
+    print(tbl)
+    print(test)
+    if (nrow(tbl) > 2) { print(test_pairwise) }
+    
+}
+```
+
+## PD-L1
+### Tumor cells
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = pdl1_tumor)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+### Intratumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = pdl1_intratumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+## FOXP3
+### Intratumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = foxp3_intratumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = foxp3_peritumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+## CD8
+### Intratumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = cd8_intratumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = cd8_peritumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+## CD8/Ki67
+### Intratumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = cd8ki67_intratumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+### Peritumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = cd8ki67_peritumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```
+
+## Ki67
+### Intratumoral lymphocytes
+```{r}
+DF_ASSOCIATION <- DF_ASSOCIATION %>% 
+  mutate(marker = ki67_intratumoral)
+```
+
+#### Age group, median
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, age_group)
+```
+
+#### Sex
+```{r}
+DF_ASSOCIATION %>% summary_association(marker, sex)
+```
+
+#### Race
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(race)) %>% summary_association(marker, race)
+```
+
+#### Fuhrman grade
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summary_association(marker, fuhrman)
+```
+
+#### pT stage
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summary_association(marker, pt_stage)
+```
+
+#### Tumor size, median
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summary_association(marker, size_group)
+```
+
+#### Tumor focality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summary_association(marker, focality)
+```
+
+#### Tumor progression
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summary_association(marker, progression)
+```
+
+#### Overall mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
+```
+
+#### Cancer-related mortality
+```{r}
+DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
+```

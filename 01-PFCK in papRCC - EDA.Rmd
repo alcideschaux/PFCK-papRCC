@@ -28,7 +28,7 @@ load("DF.Rdata")
 
 ```{r}
 # Glimpse of the clinicopathologic dataset
-glimpse(DF.Clinical)
+glimpse(DF_Clinical)
 ```
 
 ```{r}
@@ -74,60 +74,60 @@ summary_fct_x <- function(data, x) {
 ## Clinical features
 ### Age, in years
 ```{r}
-DF.Clinical %>% summary_num_x(age)
+DF_Clinical %>% summary_num_x(age)
 ```
 
 ### Sex
 ```{r}
-DF.Clinical %>% summary_fct_x(sex)
+DF_Clinical %>% summary_fct_x(sex)
 ```
 
 ### Race
 ```{r}
-DF.Clinical %>% summary_fct_x(race)
+DF_Clinical %>% summary_fct_x(race)
 ```
 
 ## Pathologic features
 ### Fuhrman grade
 ```{r}
-DF.Clinical %>% summary_fct_x(fuhrman)
+DF_Clinical %>% summary_fct_x(fuhrman)
 ```
 
 ### pT stage
 ```{r}
-DF.Clinical %>% summary_fct_x(pt_stage)
+DF_Clinical %>% summary_fct_x(pt_stage)
 ```
 
 
 ### Tumor size, in cm
 ```{r}
-DF.Clinical %>% summary_num_x(size)
+DF_Clinical %>% summary_num_x(size)
 ```
 
 ### Tumor focality
 ```{r}
-DF.Clinical %>% summary_fct_x(focality)
+DF_Clinical %>% summary_fct_x(focality)
 ```
 
 ## Outcome features
 ### Follow-up, in months
 ```{r}
-DF.Clinical %>% summary_num_x(follow_up)
+DF_Clinical %>% summary_num_x(follow_up)
 ```
 
 ### Tumor progression
 ```{r}
-DF.Clinical %>% summary_fct_x(progression)
+DF_Clinical %>% summary_fct_x(progression)
 ```
 
 ### Overall mortality
 ```{r}
-DF.Clinical %>% summary_fct_x(death)
+DF_Clinical %>% summary_fct_x(death)
 ```
 
 ### Cancer-related mortality
 ```{r}
-DF.Clinical %>% summary_fct_x(dod)
+DF_Clinical %>% summary_fct_x(dod)
 ```
 
 # Expression by tissue type

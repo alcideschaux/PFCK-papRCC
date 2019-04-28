@@ -1,0 +1,277 @@
+---
+jupyter:
+  jupytext:
+    formats: ipynb,Rmd
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.1'
+      jupytext_version: 1.1.1
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+---
+
+```{r}
+# Libraries
+suppressPackageStartupMessages(library(tidyverse))
+
+# Options
+options(warn = -1)
+
+# Scripts
+source("summarize.R")
+
+# Data
+load("DF.Rdata")
+
+OUTCOME <- DF %>% 
+  select(
+    death:progression,
+    cd8foxp3_intratumoral:ki67_intratumoral_level
+  )
+
+glimpse(OUTCOME)
+```
+
+# Regression models
+## PD-L1 expression
+### Tumor cells
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = pdl1_tumor_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+### Intratumoral lymphocyes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = pdl1_intratumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+## FOXP3
+### Intratumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = foxp3_intratumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+### Peritumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = foxp3_peritumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+## CD8
+### Intratumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8_intratumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+### Peritumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8_peritumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+## CD8/Ki67
+### Intratumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8ki67_intratumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+### Peritumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8ki67_peritumoral_level)
+
+# Note: Not evaluable due to small number of measurements corresponding all to high expression values
+table(OUTCOME$marker, useNA = "ifany")
+```
+
+#### Tumor progression
+```{r}
+# OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+# OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+# OUTCOME %>% OR(dod ~ marker)
+```
+
+## Ki67
+### Intratumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = ki67_intratumoral_level)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+## CD8/FOXP3 ratio
+### Intratumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8foxp3_intratumoral)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+### Peritumoral lymphocytes
+```{r}
+OUTCOME <- OUTCOME %>% 
+  mutate(marker = cd8foxp3_peritumoral)
+```
+
+#### Tumor progression
+```{r}
+OUTCOME %>% OR(progression ~ marker)
+```
+
+#### Overall mortality
+```{r}
+OUTCOME %>% OR(death ~ marker)
+```
+
+#### Cancer-related mortality
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
