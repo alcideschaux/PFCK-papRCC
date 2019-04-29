@@ -14,3 +14,8 @@
 **Corresponding Author:** George J. Netto, MD, Professor and Chair, Department of Pathology, The University of Alabama at Birmingham, WP Building, Suite P230 l 619 19th Street, South, Birmingham, AL 35249-7331. Phone: (205) 934-0014. Email: gnetto@uabmc.edu
 
 **Keywords:** papillary RCC, kidney, PDL1, CD8, FOXP3, Ki-7.
+
+## Data analysis
+1. [Exploratory data analysis](Reports/01-PFCK-papRCC-EDA.ipynb)
+2. [Outcome analysis](Reports/02-PFCK-papRCC-Outcome.ipynb)
+3. [Survival analysis](Reports/03-PFCK-papRCC-Survival.ipynb)
