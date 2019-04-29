@@ -94,7 +94,7 @@ summarize_nums <- function(data, x, y, pairwise = TRUE, caption = NULL) {
 # Summary of a contingency table between 2 factor variables x and y
 # useNA = c("no", "ifany", "always")
 # prop = c("cols", "rows")
-summarize_fcts <- function(data, x, y, useNA = "ifany", prop = c("cols", "rows")) {
+summarize_fcts <- function(data, x, y, useNA = "ifany", prop = c("cols", "rows"), ...) {
     
     x <- enquo(x)
     y <- enquo(y)
@@ -107,7 +107,7 @@ summarize_fcts <- function(data, x, y, useNA = "ifany", prop = c("cols", "rows")
     prop_rows <- round(prop.table(tbl, margin = 1) * 100, digits = 1)
     
     # Testing for associations
-    test <- with(df, chisq.test(x, y))
+    test <- with(df, chisq.test(x, y, ...))
     
     # Printing the tables
     print(tbl)

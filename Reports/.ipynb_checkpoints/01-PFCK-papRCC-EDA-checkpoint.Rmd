@@ -20,9 +20,6 @@ suppressPackageStartupMessages(library(tidyverse))
 # Global options
 options(warn = -1)
 
-# Scripts
-source("summarize.R")
-
 # Loading the data
 load("DF.Rdata")
 ```
@@ -293,16 +290,6 @@ DF_ASSOCIATION <- DF %>%
         cd8ki67_intratumoral = summarize_biomarker(cd8ki67_tumor),
         cd8ki67_peritumoral = summarize_biomarker(cd8ki67_tumor_stroma),
         ki67_intratumoral = summarize_biomarker(ki67_tumor)
-    ) %>% 
-    mutate(
-        cd8foxp3_intratumoral = factor(ifelse(
-            cd8_intratumoral > foxp3_intratumoral,
-            "CD8 > FOXP3", "CD8 <= FOXP3"
-        )),
-        cd8foxp3_peritumoral = factor(ifelse(
-            cd8_peritumoral > foxp3_peritumoral,
-            "CD8 > FOXP3", "CD8 <= FOXP3"
-        ))
     )
 
 glimpse(DF_ASSOCIATION)
@@ -694,7 +681,7 @@ DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
 DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
 ```
 
-## CD8-Ki67
+## CD8/Ki67
 ### Intratumoral lymphocytes
 ```{r}
 DF_ASSOCIATION <- DF_ASSOCIATION %>% 
@@ -863,117 +850,3 @@ DF_ASSOCIATION %>% filter(!is.na(death)) %>% summary_association(marker, death)
 ```{r}
 DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summary_association(marker, dod)
 ```
-
-## CD8/FOXP3 ratio
-### Intratumoral lymphocytes
-```{r}
-DF_ASSOCIATION <- DF_ASSOCIATION %>% 
-  mutate(marker = cd8foxp3_intratumoral)
-```
-
-#### Age group, median
-```{r}
-DF_ASSOCIATION %>% summarize_fcts(marker, age_group, simulate.p.value = TRUE)
-```
-
-#### Sex
-```{r}
-DF_ASSOCIATION %>% summarize_fcts(marker, sex, simulate.p.value = TRUE)
-```
-
-#### Race
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(race)) %>% summarize_fcts(marker, race, simulate.p.value = TRUE)
-```
-
-#### Fuhrman grade
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summarize_fcts(marker, fuhrman)
-```
-
-#### pT stage
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summarize_fcts(marker, pt_stage, simulate.p.value = TRUE)
-```
-
-#### Tumor size, median
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summarize_fcts(marker, size_group, simulate.p.value = TRUE)
-```
-
-#### Tumor focality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summarize_fcts(marker, focality, simulate.p.value = TRUE)
-```
-
-#### Tumor progression
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summarize_fcts(marker, progression, simulate.p.value = TRUE)
-```
-
-#### Overall mortality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(death)) %>% summarize_fcts(marker, death, simulate.p.value = TRUE)
-```
-
-#### Cancer-related mortality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summarize_fcts(marker, dod, simulate.p.value = TRUE)
-```
-
-### Peritumoral lymphocytes
-```{r}
-DF_ASSOCIATION <- DF_ASSOCIATION %>% 
-  mutate(marker = cd8foxp3_peritumoral)
-```
-
-#### Age group, median
-```{r}
-DF_ASSOCIATION %>% summarize_fcts(marker, age_group, simulate.p.value = TRUE)
-```
-
-#### Sex
-```{r}
-DF_ASSOCIATION %>% summarize_fcts(marker, sex, simulate.p.value = TRUE)
-```
-
-#### Race
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(race)) %>% summarize_fcts(marker, race, simulate.p.value = TRUE)
-```
-
-#### Fuhrman grade
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(fuhrman)) %>% summarize_fcts(marker, fuhrman, simulate.p.value = TRUE)
-```
-
-#### pT stage
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(pt_stage)) %>% summarize_fcts(marker, pt_stage, simulate.p.value = TRUE)
-```
-
-#### Tumor size, median
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(size_group)) %>% summarize_fcts(marker, size_group, simulate.p.value = TRUE)
-```
-
-#### Tumor focality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(focality)) %>% summarize_fcts(marker, focality, simulate.p.value = TRUE)
-```
-
-#### Tumor progression
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(progression)) %>% summarize_fcts(marker, progression, simulate.p.value = TRUE)
-```
-
-#### Overall mortality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(death)) %>% summarize_fcts(marker, death, simulate.p.value = TRUE)
-```
-
-#### Cancer-related mortality
-```{r}
-DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summarize_fcts(marker, dod, simulate.p.value = TRUE)
-```
-
