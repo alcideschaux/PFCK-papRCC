@@ -215,6 +215,23 @@ summary_by <- function(data, x, y, z) {
 DF %>% summary_by(pdl1_normal, pdl1_tumor, pdl1_metastatic)
 ```
 
+```{r}
+# PD-L1 positivity (>0%) by tissue types
+DF %>% 
+    mutate(
+        normal = ifelse(pdl1_normal > 0, TRUE, FALSE),
+        primary = ifelse(pdl1_tumor > 0, TRUE, FALSE),
+        metastatic = ifelse(pdl1_metastatic > 0, TRUE, FALSE)
+    ) %>% 
+    summarize(
+        normal = mean(normal, na.rm = TRUE) * 100,
+        primary = mean(primary, na.rm = TRUE) * 100,
+        metastatic = mean(metastatic, na.rm = TRUE) * 100
+    ) %>% 
+    print()
+```
+
+
 ### Peritumoral lymphocytes
 ```{r}
 DF %>% summary_by(pdl1_normal_stroma, pdl1_tumor_stroma, pdl1_metastatic_stroma)
