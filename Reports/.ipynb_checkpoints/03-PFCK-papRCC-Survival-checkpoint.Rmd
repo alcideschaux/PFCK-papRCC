@@ -18,8 +18,6 @@ jupyter:
 suppressPackageStartupMessages(library(tidyverse))
 library(survival)
 library(ggfortify)
-suppressPackageStartupMessages(library(gridExtra))
-library(grid)
 
 # Global
 options(warn = -1)
@@ -396,139 +394,12 @@ Surv_1J <- DF %>%
     Plot_Surv(follow_up, progression, cd8foxp3_peritumoral) +
         labs(tag = "J", title = "CD8/FOXP3 ratio in peritumoral lymphocytes")
 
-Surv_1 <- grid.arrange(
+Surv_1 <- gridExtra::grid.arrange(
     Surv_1A, Surv_1B,
     Surv_1C, Surv_1D,
     Surv_1E, Surv_1F,
     Surv_1G, Surv_1H,
     Surv_1I, Surv_1J,
-    ncol = 2,
-    top = textGrob("Outcome: Tumor progression", gp = gpar(cex = 1.5, fontface = "bold"))
-)
-```
-
-```{r}
-ggsave(
-    filename = "Figs/PFCK-papRCC-Survival-Progression.png",
-    plot = Surv_1,
-    width = 12,
-    height = 18,
-    units = "in"
-)
-```
-
-## Overall mortality
-**Survival curves for overall mortality by biomarkers.** The x-axes show follow-up in months. The y-axes show survival probabilities. P values were estimated using the Mantel-Cox (log-rank) test.
-
-```{r}
-options(repr.plot.height = 18, repr.plot.width = 12)
-
-Surv_2A <- DF %>% 
-    Plot_Surv(follow_up, death, pdl1_tumor_level) +
-        labs(tag = "A", title = "PD-L1 in tumor cells")
-Surv_2B <- DF %>% 
-    Plot_Surv(follow_up, death, pdl1_intratumoral_level) +
-        labs(tag = "B", title = "PD-L1 in intratumoral lymphocytes")
-Surv_2C <- DF %>% 
-    Plot_Surv(follow_up, death, foxp3_intratumoral_level) +
-        labs(tag = "C", title = "FOXP3 in intratumoral lymphocytes")
-Surv_2D <- DF %>% 
-    Plot_Surv(follow_up, death, foxp3_peritumoral_level) +
-        labs(tag = "D", title = "FOXP3 in peritumoral lymphocytes")
-Surv_2E <- DF %>% 
-    Plot_Surv(follow_up, death, cd8_intratumoral_level) +
-        labs(tag = "E", title = "CD8 in intratumoral lymphocytes")
-Surv_2F <- DF %>% 
-    Plot_Surv(follow_up, death, cd8_peritumoral_level) +
-        labs(tag = "F", title = "CD8 in peritumoral lymphocytes")
-Surv_2G <- DF %>% 
-    Plot_Surv(follow_up, death, cd8ki67_intratumoral_level) +
-        labs(tag = "G", title = "CD8-Ki67 in intratumoral lymphocytes")
-Surv_2H <- DF %>% 
-    Plot_Surv(follow_up, death, ki67_intratumoral_level) +
-        labs(tag = "H", title = "Ki67 in intratumoral lymphocytes")
-Surv_2I <- DF %>% 
-    Plot_Surv(follow_up, death, cd8foxp3_intratumoral) +
-        labs(tag = "I", title = "CD8/FOXP3 ratio in intratumoral lymphocytes")
-Surv_2J <- DF %>% 
-    Plot_Surv(follow_up, death, cd8foxp3_peritumoral) +
-        labs(tag = "J", title = "CD8/FOXP3 ratio in peritumoral lymphocytes")
-
-Surv_2 <- grid.arrange(
-    Surv_2A, Surv_2B,
-    Surv_2C, Surv_2D,
-    Surv_2E, Surv_2F,
-    Surv_2G, Surv_2H,
-    Surv_2I, Surv_2J,
-    ncol = 2,
-    top = textGrob("Outcome: Overall mortality", gp = gpar(cex = 1.5, fontface = "bold"))
-)
-```
-
-```{r}
-ggsave(
-    filename = "Figs/PFCK-papRCC-Survival-Overall-Mortality.png",
-    plot = Surv_2,
-    width = 12,
-    height = 18,
-    units = "in"
-)
-```
-
-## Cancer-related mortality
-**Survival curves for cancer-related mortality by biomarkers.** The x-axes show follow-up in months. The y-axes show survival probabilities. P values were estimated using the Mantel-Cox (log-rank) test.
-
-```{r}
-options(repr.plot.height = 18, repr.plot.width = 12)
-
-Surv_3A <- DF %>% 
-    Plot_Surv(follow_up, dod, pdl1_tumor_level) +
-        labs(tag = "A", title = "PD-L1 in tumor cells")
-Surv_3B <- DF %>% 
-    Plot_Surv(follow_up, dod, pdl1_intratumoral_level) +
-        labs(tag = "B", title = "PD-L1 in intratumoral lymphocytes")
-Surv_3C <- DF %>% 
-    Plot_Surv(follow_up, dod, foxp3_intratumoral_level) +
-        labs(tag = "C", title = "FOXP3 in intratumoral lymphocytes")
-Surv_3D <- DF %>% 
-    Plot_Surv(follow_up, dod, foxp3_peritumoral_level) +
-        labs(tag = "D", title = "FOXP3 in peritumoral lymphocytes")
-Surv_3E <- DF %>% 
-    Plot_Surv(follow_up, dod, cd8_intratumoral_level) +
-        labs(tag = "E", title = "CD8 in intratumoral lymphocytes")
-Surv_3F <- DF %>% 
-    Plot_Surv(follow_up, dod, cd8_peritumoral_level) +
-        labs(tag = "F", title = "CD8 in peritumoral lymphocytes")
-Surv_3G <- DF %>% 
-    Plot_Surv(follow_up, dod, cd8ki67_intratumoral_level) +
-        labs(tag = "G", title = "CD8-Ki67 in intratumoral lymphocytes")
-Surv_3H <- DF %>% 
-    Plot_Surv(follow_up, dod, ki67_intratumoral_level) +
-        labs(tag = "H", title = "Ki67 in intratumoral lymphocytes")
-Surv_3I <- DF %>% 
-    Plot_Surv(follow_up, dod, cd8foxp3_intratumoral) +
-        labs(tag = "I", title = "CD8/FOXP3 ratio in intratumoral lymphocytes")
-Surv_3J <- DF %>% 
-    Plot_Surv(follow_up, dod, cd8foxp3_peritumoral) +
-        labs(tag = "J", title = "CD8/FOXP3 ratio in peritumoral lymphocytes")
-
-Surv_3 <- gridExtra::grid.arrange(
-    Surv_3A, Surv_3B,
-    Surv_3C, Surv_3D,
-    Surv_3E, Surv_3F,
-    Surv_3G, Surv_3H,
-    Surv_3I, Surv_3J,
-    ncol = 2,
-    top = textGrob("Outcome: Cancer-related mortality", gp = gpar(cex = 1.5, fontface = "bold"))
-)
-```
-
-```{r}
-ggsave(
-    filename = "Figs/PFCK-papRCC-Survival-Cancer-Mortality.png",
-    plot = Surv_3,
-    width = 12,
-    height = 18,
-    units = "in"
+    ncol = 2
 )
 ```

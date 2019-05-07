@@ -976,4 +976,3 @@ DF_ASSOCIATION %>% filter(!is.na(death)) %>% summarize_fcts(marker, death, simul
 ```{r}
 DF_ASSOCIATION %>% filter(!is.na(dod)) %>% summarize_fcts(marker, dod, simulate.p.value = TRUE)
 ```
-
