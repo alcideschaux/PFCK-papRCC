@@ -150,7 +150,8 @@ OR <- function(data, formula, ...) {
       estimate = round(estimate, digits = 2),
       std.error = round(std.error, digits = 2),
       statistic = round(statistic, digits = 2),
-      or = round(exp(estimate), digits = 2)
+      or = round(exp(estimate), digits = 2),
+      p.value = formatC(p.value, digits = 2, format = "fg", flag = "#")
     )
   mdl_confint <- exp(broom::confint_tidy(mdl)) %>% round(digits = 2)
   mdl_tbl <- bind_cols(mdl_coef, mdl_confint)
@@ -160,9 +161,8 @@ OR <- function(data, formula, ...) {
   
   print(mdl_tbl)
   
-  cat(paste0("\nOR = ", mdl_tbl$or, " (", mdl_tbl$conf.low, ", ", mdl_tbl$conf.high, ")"))
-  
-  cat(paste0("\n P = ", formatC(mdl_tbl$p.value, digits = 2, format = "fg", flag = "#")))
+  # cat(paste0("\nOR = ", mdl_tbl$or, " (", mdl_tbl$conf.low, ", ", mdl_tbl$conf.high, ")"))
+  # cat(paste0("\n P = ", formatC(mdl_tbl$p.value, digits = 2, format = "fg", flag = "#")))
 }
 
 # PLOTS

@@ -28,6 +28,9 @@ load("DF.Rdata")
 
 OUTCOME <- DF %>% 
   select(
+    age_group,
+    stage_group,
+    fuhrman_group,
     death:progression,
     cd8foxp3_intratumoral:ki67_intratumoral_level
   )
@@ -35,159 +38,284 @@ OUTCOME <- DF %>%
 glimpse(OUTCOME)
 ```
 
-# Regression models
-## PD-L1 expression
-### Tumor cells
+# PD-L1 expression
+## Tumor cells
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = pdl1_tumor_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-### Intratumoral lymphocyes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = pdl1_intratumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-## FOXP3
-### Intratumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+# FOXP3
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = foxp3_intratumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-### Peritumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+## Peritumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = foxp3_peritumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-## CD8
-### Intratumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+# CD8
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8_intratumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-### Peritumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+## Peritumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8_peritumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-## CD8/Ki67
-### Intratumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+# CD8-Ki67
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8ki67_intratumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-### Peritumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+## Peritumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8ki67_peritumoral_level)
@@ -196,82 +324,154 @@ OUTCOME <- OUTCOME %>%
 table(OUTCOME$marker, useNA = "ifany")
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
-# OUTCOME %>% OR(progression ~ marker)
+OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
 ```{r}
-# OUTCOME %>% OR(death ~ marker)
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
 ```
 
-#### Cancer-related mortality
+### Overall mortality
+#### Unadjusted model
 ```{r}
-# OUTCOME %>% OR(dod ~ marker)
+OUTCOME %>% OR(death ~ marker)
 ```
 
-## Ki67
-### Intratumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
+```{r}
+OUTCOME %>% OR(dod ~ marker)
+```
+
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+# Ki67
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = ki67_intratumoral_level)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-## CD8/FOXP3 ratio
-### Intratumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+# CD8/FOXP3 ratio
+## Intratumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8foxp3_intratumoral)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
 ```
 
-### Peritumoral lymphocytes
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+## Peritumoral lymphocytes
 ```{r}
 OUTCOME <- OUTCOME %>% 
   mutate(marker = cd8foxp3_peritumoral)
 ```
 
-#### Tumor progression
+### Tumor progression
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(progression ~ marker)
 ```
 
-#### Overall mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(progression ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Overall mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(death ~ marker)
 ```
 
-#### Cancer-related mortality
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(death ~ marker + age_group + stage_group + fuhrman_group)
+```
+
+### Cancer-related mortality
+#### Unadjusted model
 ```{r}
 OUTCOME %>% OR(dod ~ marker)
+```
+
+#### Adjusted model: age, pT stage and Fuhrman grade
+```{r}
+OUTCOME %>% OR(dod ~ marker + age_group + stage_group + fuhrman_group)
 ```
